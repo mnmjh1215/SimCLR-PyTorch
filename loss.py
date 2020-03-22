@@ -3,6 +3,7 @@
 import torch.nn as nn
 import torch
         
+LARGE_NUM = 1e9
         
 class NTCrossEntropyLoss(nn.Module):
     def __init__(self, temperature, device=torch.device('cuda' if torch.cuda.is_available() else 'cpu')):
@@ -23,8 +24,9 @@ class NTCrossEntropyLoss(nn.Module):
         
         cosine_similarity = self.get_cosine_similarity_matrix(z, z)
         
-        # change diagonal elements to negative inf
-        cosine_similarity.fill_diagonal_(-float("inf"))
+        # subtract very large number from diagonal elements
+        # following official implementation: https://github.com/google-research/simclr/blob/master/objective.py#L80
+        cosine_similarity[range(2 * batch_size), range(2 * batch_size)] -= LARGE_NUM
         
         # apply temperature
         cosine_similarity /= self.temperature
