@@ -17,6 +17,7 @@ def train(args):
         resnet = ResNet50()
         projection = ProjectionHead(2048, 2048, 2048)
     else:
+        print("model_type must be one of ResNet18 or ResNet50")
         raise NotImplementedError
     model = SimCLRModel(resnet, projection)
     
