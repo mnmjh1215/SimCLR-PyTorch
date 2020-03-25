@@ -34,7 +34,7 @@ def load_cifar10_for_contrastive_learning(root='data/', val_split=0.1, s=0.5, ba
     return cifar10_train_dataloader, cifar10_val_dataloader
 
 
-def load_cifar10_for_linear_evaluation(root='data/', val_split=0.1, batch_size=128, download=True, num_workers=0, seed=0):
+def load_cifar10_for_linear_evaluation(root='data/', batch_size=128, download=True, num_workers=0, seed=0):
     cifar10_train = CIFAR10(root, train=True, transform=cifar10_base_transforms, download=download)
     cifar10_test = CIFAR10(root, train=False, transform=cifar10_base_transforms, download=download)
     

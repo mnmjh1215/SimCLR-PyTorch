@@ -12,7 +12,7 @@ def get_custom_lr_scheduling_fn(linear_warmup_epochs, total_epochs):
 
         # "decay the learning rate with the cosine decay schedule without restarts"
         # if eta_min is 0, and eta_max is initial lr, then lr at step t is equal to
-        # initial lr * (1/2) * (1 + cos(T_cur/T_max * pi))
+        # initial_lr * (1/2) * (1 + cos(T_cur/T_max * pi))
         T_max = total_epochs - linear_warmup_epochs
         T_cur = epoch - linear_warmup_epochs
         return 1 / 2 * (1 + math.cos(T_cur / T_max * math.pi))
