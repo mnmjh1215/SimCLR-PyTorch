@@ -7,7 +7,7 @@ from models.simclr_model import SimCLRModel
 
 def train(args):
     print("Preparing Data")
-    train_dataloader, val_dataloader = load_cifar10_for_contrastive_learning(batch_size=args.batch_size)
+    train_dataloader = load_cifar10_for_contrastive_learning(batch_size=args.batch_size)
     
     print("Creating Model")
     if args.model_type == 'ResNet18':
@@ -22,7 +22,7 @@ def train(args):
     model = SimCLRModel(resnet, projection)
     
     print("Creating Trainer")
-    trainer = SimCLRTrainer(model, train_dataloader, val_dataloader, 
+    trainer = SimCLRTrainer(model, train_dataloader, 
                             learning_rate=args.learning_rate, weight_decay=args.weight_decay, temperature=args.temperature,
                             linear_warmup_epochs=args.linear_warmup_epochs, total_epochs=args.total_epochs,
                             print_interval=args.print_interval)

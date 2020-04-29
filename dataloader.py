@@ -21,17 +21,11 @@ cifar10_base_transforms = transforms.Compose(
 )
     
     
-def load_cifar10_for_contrastive_learning(root='data/', val_split=0.1, s=0.5, batch_size=256, download=True, num_workers=0, seed=0):
+def load_cifar10_for_contrastive_learning(root='data/', s=0.5, batch_size=256, download=True, num_workers=0, seed=0):
     cifar10 = CIFAR10(root, train=True, transform=TransformTwice(get_data_augmentation_for_cifar10(32, s=s)), download=download)
+    cifar10_train_dataloader = DataLoader(cifar10, batch_size=batch_size, shuffle=True, num_workers=num_workers)
     
-    torch.manual_seed(seed)
-    num_val_data = int(len(cifar10) * val_split)
-    cifar10_train, cifar10_val = random_split(cifar10, [len(cifar10) - num_val_data, num_val_data])
-    
-    cifar10_train_dataloader = DataLoader(cifar10_train, batch_size=batch_size, shuffle=True, num_workers=num_workers)
-    cifar10_val_dataloader = DataLoader(cifar10_val, batch_size=batch_size, shuffle=False, num_workers=num_workers)
-    
-    return cifar10_train_dataloader, cifar10_val_dataloader
+    return cifar10_train_dataloader
 
 
 def load_cifar10_for_linear_evaluation(root='data/', batch_size=128, download=True, num_workers=0, seed=0):
